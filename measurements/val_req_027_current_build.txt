@@ -1,0 +1,26 @@
+VAL-REQ-027 measurement campaign index
+
+Canonical PHASE 15 campaign:
+Artifact: val_req_027_campaign_2026-08-27_202840.txt
+Host date/time: 2026-08-27T20:28:40.473505+02:00
+Role: CANONICAL PHASE 15 VALIDATION CAMPAIGN
+
+Secondary repeatability campaign:
+Artifact: val_req_027_campaign_2026-08-27_213529.txt
+Host date/time: 2026-08-27T21:35:29.587814+02:00
+Role: SECONDARY REPEATABILITY CAMPAIGN
+
+Same build identity: YES
+ELF SHA-256: 3f32ace4f15895fd14b350d09de855f17ae7fb69e71fd79983825056bb163d59
+HEX SHA-256: 3c18c0c317c7738c0dfd4104fdda4411734061da2c08ef3a4d29a1bfb46f4f4d
+Map SHA-256: 3a03c351d26b18f73e72a1c34378d52ffe5df907251f9b52024892a363ed8d10
+
+Reason for two immutable campaign artifacts:
+The Supervisor originally wrote every --validation-profile campaign to this
+single fixed pathname using Path.write_text(). The later real campaign therefore
+overwrote the earlier measurement dump. Both datasets are now preserved under
+timestamped filenames; the later run does not replace the canonical PHASE 15
+campaign.
+
+Both datasets contain observed measurements. Differences between runs are
+expected empirical run-to-run variation and are not timing guarantees.

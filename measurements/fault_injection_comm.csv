@@ -1,0 +1,3 @@
+timestamp,fault_id,counter_name,before,after,counter_incremented,recovery_ping,result
+2026-08-25T11:20:18.802660+02:00,FI-COM-001,crc_errors,0,1,true,true,PASS
+2026-08-25T11:20:19.060725+02:00,FI-COM-002,parser_timeouts,0,1,true,true,PASS

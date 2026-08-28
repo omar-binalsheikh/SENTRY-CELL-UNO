@@ -1,0 +1,49 @@
+Final validation measurement campaign
+
+Host date/time: 2026-08-27T21:35:29.587814+02:00
+
+Build evidence:
+ELF SHA-256: 3f32ace4f15895fd14b350d09de855f17ae7fb69e71fd79983825056bb163d59
+HEX SHA-256: 3c18c0c317c7738c0dfd4104fdda4411734061da2c08ef3a4d29a1bfb46f4f4d
+Map SHA-256: 3a03c351d26b18f73e72a1c34378d52ffe5df907251f9b52024892a363ed8d10
+avr-size text: 6886 bytes
+avr-size data: 10 bytes
+avr-size bss: 280 bytes
+avr-size dec: 7176 bytes
+Flash bytes: 6896
+Static SRAM bytes: 290
+
+Scenario:
+IDLE       : 5 s
+ACTIVE     : 10 s
+SAFE_STATE : 5 s
+Host-timed instructions only; FSM states are not automatically detected.
+
+observed execution-time maxima:
+Actuator: 44 ticks = 22 us
+Control: 97 ticks = 48.5 us
+Sensor/Safety: 435 ticks = 217.5 us
+Communication: 40 ticks = 20 us
+
+observed maximum jitter at 1 ms measurement resolution:
+Actuator: 0 ms
+Control: 0 ms
+Sensor/Safety: 0 ms
+Communication: 0 ms
+
+observed minimum free SRAM watermark:
+Painted region: 1721 bytes
+Used painted: 62 bytes
+Minimum free observed: 1659 bytes
+
+observed scheduled-task CPU utilization:
+Busy ticks: 668978
+Elapsed firmware time: 20690 ms
+Utilization: 1.6 %
+Scheduled-task CPU utilization excludes ISR and scheduler overhead.
+
+observed execution overruns:
+Actuator: 0
+Control: 0
+Sensor/Safety: 0
+Communication: 0

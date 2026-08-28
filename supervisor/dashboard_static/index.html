@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <title>SENTRY-CELL UNO Dashboard</title>
+  <link rel="stylesheet" href="/dashboard.css">
+</head>
+<body>
+  <div class="shell">
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">LOCAL READ-ONLY SUPERVISOR</p>
+        <h1>SENTRY-CELL UNO</h1>
+        <p class="subtitle">Real-Time Embedded Safety &amp; Monitoring Supervisor</p>
+      </div>
+      <div class="connection-panel" aria-live="polite">
+        <div class="connection-line">
+          <span id="connection-dot" class="status-dot disconnected"></span>
+          <strong id="connection-state">DISCONNECTED</strong>
+        </div>
+        <span id="telemetry-mode" class="telemetry-mode">NO LIVE DEVICE TELEMETRY</span>
+        <span id="last-update" class="last-update">Last update: never</span>
+      </div>
+    </header>
+
+    <div id="error-banner" class="error-banner hidden" role="status"></div>
+
+    <main>
+      <section class="metric-grid" aria-label="Current telemetry">
+        <article class="metric-card accent-blue">
+          <div class="metric-heading">
+            <span>CPU LOAD</span>
+            <span class="metric-tag">SCHEDULED</span>
+          </div>
+          <div class="metric-value"><span id="cpu-value">—</span><small>%</small></div>
+          <p>Scheduled tasks only</p>
+          <div class="metric-detail">
+            <span>Busy ticks</span><strong id="cpu-busy">—</strong>
+          </div>
+          <div class="metric-detail">
+            <span>Elapsed</span><strong id="cpu-elapsed">—</strong>
+          </div>
+        </article>
+
+        <article class="metric-card accent-green">
+          <div class="metric-heading">
+            <span>SRAM FREE</span>
+            <span class="metric-tag">WATERMARK</span>
+          </div>
+          <div class="metric-value"><span id="sram-free">—</span><small>B</small></div>
+          <p>Observed minimum free watermark</p>
+          <div class="metric-detail">
+            <span>Painted region</span><strong id="sram-painted">—</strong>
+          </div>
+          <div class="metric-detail">
+            <span>Used painted</span><strong id="sram-used">—</strong>
+          </div>
+        </article>
+
+        <article class="metric-card accent-amber">
+          <div class="metric-heading">
+            <span>COMM HEALTH</span>
+            <span class="metric-tag">COUNTERS</span>
+          </div>
+          <div class="counter-stack">
+            <div><span>RX overflow</span><strong id="comm-overflow">—</strong></div>
+            <div><span>Parser timeout</span><strong id="comm-timeout">—</strong></div>
+            <div><span>CRC errors</span><strong id="comm-crc">—</strong></div>
+          </div>
+          <p>Non-destructive, saturating MCU counters</p>
+        </article>
+
+        <article class="metric-card accent-violet">
+          <div class="metric-heading">
+            <span>WATCHDOG</span>
+            <span class="metric-tag">PREVIOUS BOOT</span>
+          </div>
+          <div id="watchdog-marker" class="watchdog-value">—</div>
+          <p>Persistent previous-timeout marker</p>
+          <div class="metric-detail">
+            <span>Control surface</span><strong>READ ONLY</strong>
+          </div>
+        </article>
+      </section>
+
+      <section class="panel task-panel">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">COOPERATIVE SCHEDULER</p>
+            <h2>Task Runtime Status</h2>
+          </div>
+          <span class="resolution-note">Jitter resolution: 1 ms</span>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Task</th>
+                <th>Period</th>
+                <th>Exec Max</th>
+                <th>Jitter</th>
+                <th>Overruns</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr data-task="actuator">
+                <td><span class="task-marker blue"></span>Actuator</td>
+                <td>1 ms</td><td class="exec">—</td><td class="jitter">—</td><td class="overrun">—</td>
+              </tr>
+              <tr data-task="control">
+                <td><span class="task-marker green"></span>Control</td>
+                <td>10 ms</td><td class="exec">—</td><td class="jitter">—</td><td class="overrun">—</td>
+              </tr>
+              <tr data-task="sensor_safety">
+                <td><span class="task-marker amber"></span>Sensor/Safety</td>
+                <td>30 ms</td><td class="exec">—</td><td class="jitter">—</td><td class="overrun">—</td>
+              </tr>
+              <tr data-task="communication">
+                <td><span class="task-marker violet"></span>Communication</td>
+                <td>10 ms</td><td class="exec">—</td><td class="jitter">—</td><td class="overrun">—</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="chart-grid">
+        <article class="panel chart-panel">
+          <div class="section-heading compact">
+            <div>
+              <p class="eyebrow">RECENT SAMPLES</p>
+              <h2>Scheduled-Task CPU Utilization</h2>
+            </div>
+            <span class="chart-unit">%</span>
+          </div>
+          <canvas id="cpu-chart" aria-label="Scheduled-task CPU utilization chart"></canvas>
+          <p class="chart-caption">Sampled points; connecting lines are for readability only.</p>
+        </article>
+
+        <article class="panel chart-panel">
+          <div class="section-heading compact">
+            <div>
+              <p class="eyebrow">RECENT SAMPLES</p>
+              <h2>Observed Minimum Free SRAM</h2>
+            </div>
+            <span class="chart-unit">bytes</span>
+          </div>
+          <canvas id="sram-chart" aria-label="Observed minimum free SRAM chart"></canvas>
+          <p class="chart-caption">Empirical watermark samples; not a guaranteed lower bound.</p>
+        </article>
+      </section>
+
+      <section class="panel event-panel">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">DERIVED FROM LIVE TELEMETRY</p>
+            <h2>Bounded Event Log</h2>
+          </div>
+          <span class="resolution-note">Maximum 50 entries</span>
+        </div>
+        <ol id="event-log" class="event-log">
+          <li class="empty-event">No live-derived events yet.</li>
+        </ol>
+      </section>
+    </main>
+
+    <footer>
+      <strong>Measurement scope</strong>
+      <ul>
+        <li>Execution times are observed maxima, not guaranteed WCET.</li>
+        <li>Jitter resolution is 1 ms.</li>
+        <li>CPU utilization covers scheduled tasks and excludes ISR/scheduler overhead.</li>
+        <li>SRAM is an empirical runtime watermark.</li>
+        <li>Experimental low-voltage prototype; not SIL/ASIL certified.</li>
+      </ul>
+    </footer>
+  </div>
+  <script src="/dashboard.js" defer></script>
+</body>
+</html>

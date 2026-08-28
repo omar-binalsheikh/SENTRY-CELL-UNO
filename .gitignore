@@ -1,0 +1,22 @@
+# macOS
+.DS_Store
+
+# Python cache
+__pycache__/
+*.py[cod]
+
+# Python virtual environments
+.venv/
+venv/
+
+# AVR intermediate objects
+build/*.o
+build/*.d
+
+# Editor/local temporary files
+*.tmp
+*.bak
+*.log
+*.swp
+*.swo
+*~

@@ -1,0 +1,64 @@
+SENTRY-CELL UNO — STATIC MEMORY PROFILE
+
+MCU:
+ATmega328P
+
+FLASH
+text: 5082 bytes
+data: 10 bytes
+flash used = text + data: 5092 bytes
+flash total: 32768 bytes
+flash remaining: 27676 bytes
+flash usage percent: 15.54%
+
+STATIC SRAM
+data: 10 bytes
+bss: 245 bytes
+static SRAM used = data + bss: 255 bytes
+SRAM total: 2048 bytes
+remaining before runtime stack/heap: 1793 bytes
+static SRAM usage percent: 12.45%
+
+IMPORTANT
+Runtime stack high-water mark: NOT MEASURED
+Runtime minimum free SRAM: NOT MEASURED
+
+Largest SRAM objects:
+- tx_buffer: 64 bytes (.bss)
+- g_tasks: 44 bytes (.bss)
+- rx_buffer: 32 bytes (.bss)
+- g_last_start_ms: 16 bytes (.bss)
+- pending_frame: 11 bytes (.bss)
+- received_frame: 11 bytes (.bss)
+- g_max_jitter_ms: 8 bytes (.bss)
+- g_max_ticks: 8 bytes (.bss)
+- CSWTCH.10: 7 bytes (.data, stepper sequence table)
+
+Static .bss module attribution from linker map:
+- UART state: 101 bytes
+  (64-byte TX buffer, 32-byte RX buffer, five 1-byte indexes/counter)
+- Scheduler task table: 44 bytes
+- Protocol state: 38 bytes
+- Timing/jitter profiler state: 36 bytes
+- Main task state: 8 bytes
+- HC-SR04 state: 6 bytes
+- Diagnostics state: 4 bytes
+- System time state: 4 bytes
+- System FSM state: 2 bytes
+- Stepper state: 1 byte
+- Servo state: 1 byte
+
+Compiler stack-usage estimates:
+- communication_task: 29 bytes
+- protocol_send_frame.part.0: 20 bytes
+- protocol_send_jitter_status: 17 bytes
+- protocol_send_timing_status: 17 bytes
+- timing_profiler_record_start: 16 bytes
+- protocol_compute_crc: 16 bytes
+- protocol_send_comm_status: 15 bytes
+- control_task: 15 bytes
+- USART_RX_vect (__vector_18): 10 bytes
+- USART_UDRE_vect (__vector_19): 9 bytes
+
+These -fstack-usage values are compiler per-function static estimates.
+They are not cumulative call-graph estimates and are not runtime measurements.
